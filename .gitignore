@@ -1,0 +1,13 @@
+# Carpetas y archivos a ignorar
+__pycache__/
+venv/
+*.pyc
+*.pyo
+*.pyd
+.env
+.DS_Store
+
+# Entornos virtuales de Python
+*/venv/*
+*/env/*
+*/.venv/*
