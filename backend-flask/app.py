@@ -69,6 +69,36 @@ def actualizar_producto(id):
         return jsonify({"error": str(e)}), 500
 
 
+# GET reporte de productos
+@app.route('/api/reportes/productos', methods=['GET'])
+def reporte_productos():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            SELECT 
+                id AS 'id',
+                nombre AS 'nombre',
+                descripcion AS 'descripcion',
+                precio AS 'precio', 
+                categoria AS 'categoria',
+                stock AS 'stock'
+            FROM productos
+        """)
+        
+        productos = cur.fetchall()
+        column_names = [desc[0] for desc in cur.description]  # Mover antes del close
+        cur.close()
+        
+        # Convertir a array de diccionarios
+        productos_list = [dict(zip(column_names, row)) for row in productos]
+        
+        return jsonify(productos_list)
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
 
 if __name__ == '__main__':
     app.run(port=5000)
